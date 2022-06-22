@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  app:
+    build: BUILD/app/
+    image: sfs
+    container_name: sfs
+    restart: always
+    volumes: 
+        - ./volumes/app/sources:/opt/sfs/sources
+        - ./volumes/app/files:/opt/sfs/files
+    environment:
+      - URL=http://www.sfs.int
+
+  rp:
+    image: nginx:alpine
+    container_name: sfs-rp
+    restart: always
+    ports:
+      - "80:80"
+      #- "443:443"
+    volumes:
+      - ./volumes/rp/conf.d/default.conf:/etc/nginx/conf.d/default.conf:ro
+      #- ./volumes/rp/ssl/www.sfs.int.crt:/etc/ssl/certs/www.sfs.int.crt:ro
+      #- ./volumes/rp/ssl/www.sfs.int.key:/etc/ssl/private/www.sfs.int.key:ro
+    environment:
+      - NGINX_HOST=www.sfs.int
+
+  ldap:
+      build: 
+        context: BUILD/ldap/
+        args:
+          - SAMBA_VERSION=4.15.5
+      image: ldap
+      container_name: sfs-ldap
+      hostname: ldap
+      restart: always
+      ports:
+        - "389:389"
+        - "636:636"
+      environment:
+        - SAMBA_DC_REALM=sfs.int
+        - SAMBA_DC_DOMAIN=sfs
+        - SAMBA_DC_ADMIN_PASSWD=Password1
+        - SAMBA_DC_DNS_BACKEND=SAMBA_INTERNAL

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% include 'navbar.html' %}
+{% block content %}
+<div class="container">
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Url</th>
+            <th scope="col">Clicks</th>
+            <th scope="col">Creation Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for url in urls[::-1] %}
+                <tr>
+                    <th scope="row">{{ url['id'] }}</th>
+                    <td><a href="{{ url['short_url'] }}">{{ url['short_url'] }}</a></td>
+                    <td>{{ url['clicks'] }}</td>
+                    <td>{{ url['created'] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
