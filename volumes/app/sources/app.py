@@ -70,28 +70,31 @@ async def index():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # Store files
-    for key, f in request.files.items():
-        if key.startswith('file'):
-            filename = f.filename
-            fpath = os.path.join('../files/tmp', secure_filename(filename))
-            f.save(fpath)
+    if session.get('status'):
+        # Store files
+        for key, f in request.files.items():
+            if key.startswith('file'):
+                filename = f.filename
+                fpath = os.path.join('../files/tmp', secure_filename(filename))
+                f.save(fpath)
 
-    # Compress multiple files
-    nb_files = len(list(request.files.items()))
-    if nb_files > 1:
-        filename = ''.join(random.choice(string.ascii_uppercase) for i in range(10))
-        
-        os.mkdir('../files/tmp/'+filename)
+        # Compress multiple files
+        nb_files = len(list(request.files.items()))
+        if nb_files > 1:
+            filename = ''.join(random.choice(string.ascii_uppercase) for i in range(10))
 
-        allfiles = os.listdir('../files/tmp/')
-        for f in allfiles:
-            shutil.move('../files/tmp/'+f, '../files/tmp/'+filename)
-        
-        shutil.make_archive('../files/tmp/'+filename, 'zip', '../files/tmp/'+filename)
-        shutil.rmtree('../files/tmp/'+filename)
-        filename = filename+'.zip'
-    return '', 204
+            os.mkdir('../files/tmp/'+filename)
+
+            allfiles = os.listdir('../files/tmp/')
+            for f in allfiles:
+                shutil.move('../files/tmp/'+f, '../files/tmp/'+filename)
+
+            shutil.make_archive('../files/tmp/'+filename, 'zip', '../files/tmp/'+filename)
+            shutil.rmtree('../files/tmp/'+filename)
+            filename = filename+'.zip'
+        return '', 204
+    else:
+        return '', 401
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
