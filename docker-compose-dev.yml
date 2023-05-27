@@ -6,7 +6,7 @@ services:
     image: sfs
     container_name: sfs
     restart: always
-    volumes: 
+    volumes:
         - ./volumes/app/sources:/opt/sfs/sources
         - ./volumes/app/files:/opt/sfs/files
     environment:
@@ -27,7 +27,7 @@ services:
       - NGINX_HOST=www.sfs.int
 
   ldap:
-      build: 
+      build:
         context: BUILD/ldap/
         args:
           - SAMBA_VERSION=4.15.5

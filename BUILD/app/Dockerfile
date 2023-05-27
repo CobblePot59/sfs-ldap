@@ -1,8 +1,11 @@
-FROM python:3.9-slim
+FROM python:slim-buster
+
 WORKDIR /opt/sfs/sources
-RUN apt update -y && \
-    apt install -y gcc libsasl2-dev libldap2-dev && \
-	python3 -m pip install gunicorn flask flask-sqlalchemy==2.5.1 flask_simpleldap flask-dropzone hashids asgiref bcrypt
-ENV GUNICORN_CMD_ARGS="-b 0.0.0.0:80 -w 4"
+
+RUN apt-get update -y && \
+    apt-get install -y --no-install-recommends gcc libsasl2-dev libldap2-dev && \
+    python3 -m pip install --no-cache-dir gunicorn flask flask-sqlalchemy flask-ldap3-login flask-dropzone hashids aioflask bcrypt asgiref
+
 EXPOSE 80
-CMD ["gunicorn", "wsgi:app"]
+
+CMD ["gunicorn", "wsgi:app", "--bind=0.0.0.0:80", "--workers=4", "--reload"]
