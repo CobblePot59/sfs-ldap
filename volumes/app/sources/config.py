@@ -11,6 +11,7 @@ LDAP_HOST = 'ldap'
 LDAP_PORT = 389
 LDAP_USE_SSL = False
 LDAP_BASE_DN = 'OU=Domain Users,DC=sfs,DC=int'
+LDAP_BIND_DIRECT_CREDENTIALS = True
 LDAP_USERNAME = 'connector'
 LDAP_PASSWORD = 'Password1'
 
