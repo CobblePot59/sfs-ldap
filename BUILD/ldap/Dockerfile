@@ -11,8 +11,7 @@ RUN DEP_PKG="python3 python3-dev python3-cryptography python3-pyasn1 \
              libjansson-dev libfam-dev libarchive-dev liblmdb-dev \
              libacl1-dev libldap2-dev libpam-dev libdbus-1-dev" && \
     apt update && \
-    apt-get install -y --no-install-recommends $DEP_PKG && \
-    apt-get clean
+    apt-get install -y --no-install-recommends $DEP_PKG
 
 RUN wget https://download.samba.org/pub/samba/stable/samba-$SAMBA_VERSION.tar.gz && \
     tar xzvf samba-$SAMBA_VERSION.tar.gz && \
@@ -21,7 +20,7 @@ RUN wget https://download.samba.org/pub/samba/stable/samba-$SAMBA_VERSION.tar.gz
     make -j4 && \
     make install
 
-RUN apt autoremove && apt clean && apt autoclean && \
+RUN apt-get autoremove && apt-get clean && apt-get autoclean && \
     rm -r samba-$SAMBA_VERSION.tar.gz samba-$SAMBA_VERSION
 
 ENV PATH=/usr/local/samba/bin:/usr/local/samba/sbin:$PATH
