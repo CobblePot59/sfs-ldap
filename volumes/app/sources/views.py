@@ -92,7 +92,7 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session['status'] = False
+    session.clear()
     return redirect(url_for('login'))
 
 @app.route('/<hid>')
