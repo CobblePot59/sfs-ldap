@@ -10,7 +10,6 @@ app.config.from_pyfile('config.py')
 ldap = LDAP3LoginManager(app)
 
 db = SQLAlchemy(app)
-from models import *
 
 dropzone = Dropzone(app)
 hashids = Hashids(min_length=64, salt=app.config['SECRET_KEY'])
