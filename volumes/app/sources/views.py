@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for, session, send_from_directory, flash
 from app import app, ldap, db, dropzone, hashids
-from app import Files
+from models import Files
 from decor import login_required
 from werkzeug.utils import secure_filename
 from time import time
