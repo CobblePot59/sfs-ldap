@@ -4,7 +4,7 @@ WORKDIR /opt/sfs/sources
 
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends gcc libsasl2-dev libldap2-dev && \
-    python3 -m pip install --no-cache-dir gunicorn flask flask-sqlalchemy flask-ldap3-login flask-dropzone hashids aioflask bcrypt asgiref
+    python3 -m pip install --no-cache-dir gunicorn flask flask-sqlalchemy flask-ldap3-login flask-dropzone hashids aioflask bcrypt asgiref flask-toastr
 
 EXPOSE 80
 
