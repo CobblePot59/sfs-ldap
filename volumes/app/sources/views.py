@@ -87,7 +87,7 @@ def login():
         session['status'] = True
         return redirect(url_for('index'))
     else:
-        flash('Bad Login', 'danger')
+        flash('Bad Login', 'error')
         return redirect(url_for('login'))
 
 @app.route("/logout")
