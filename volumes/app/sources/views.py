@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, session, send_from_directory, flash
+from flask import render_template, request, redirect, url_for, session, send_from_directory, flash, abort
 from app import app, ldap, db, dropzone, hashids
 from models import Files
 from decor import login_required
@@ -115,7 +115,7 @@ def url_redirect(hid):
         else:
             return send_from_directory(finfo.fpath, finfo.fname, as_attachment = True)
     else:
-        return 'Not Found'
+        abort(404)
 
 @app.route('/locked/<hid>', methods=['GET', 'POST'])
 def locked(hid):
@@ -131,9 +131,10 @@ def locked(hid):
             if bcrypt.checkpw(password.encode('utf-8'), finfo.fpassword):
                 return send_from_directory(finfo.fpath, finfo.fname, as_attachment = True)
             else:
-                return 'Bad password'
+                flash('Bad Login', 'error')
+                return redirect(url_for('locked', hid=hid))
         else:
-            return 'Not Found'
+            abort(404)
 
 @app.route('/stats')
 @login_required
